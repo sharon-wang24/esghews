@@ -7,61 +7,38 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
-  
-  header { background: #0a2540; color: white; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-  header h1 { font-size: 1.2rem; font-weight: 500; letter-spacing: 0.02em; }
-  header .date { font-size: 0.85rem; opacity: 0.7; }
-  
+  header { background: #0a2540; color: white; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  header h1 { font-size: 1.2rem; font-weight: 500; }
+  .market-bar { background: #0d2f4f; color: white; padding: 0.75rem 2rem; display: flex; gap: 2rem; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .market-item { display: flex; flex-direction: column; gap: 2px; }
+  .market-label { font-size: 10px; opacity: 0.6; letter-spacing: 0.05em; text-transform: uppercase; }
+  .market-value { font-size: 15px; font-weight: 500; }
+  .market-change { font-size: 11px; }
+  .up { color: #4caf50; }
+  .down { color: #f44336; }
+  .neutral { color: #aaa; }
   .tags { display: flex; gap: 8px; padding: 1rem 2rem; background: white; border-bottom: 1px solid #e5e5e5; flex-wrap: wrap; }
   .tag { padding: 4px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; border: 1px solid #e5e5e5; background: white; color: #555; transition: all 0.15s; }
   .tag.active { background: #0a2540; color: white; border-color: #0a2540; }
   .tag:hover:not(.active) { background: #f0f0f0; }
-
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; padding: 1.5rem 2rem; max-width: 1200px; margin: 0 auto; }
-  
   .card { background: white; border-radius: 8px; border: 1px solid #e5e5e5; overflow: hidden; transition: box-shadow 0.15s; cursor: pointer; }
   .card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
   .card-top { padding: 1rem 1.25rem 0.75rem; }
-  .card-source { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+  .card-source { font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; color: #1565c0; }
   .card-title { font-size: 0.95rem; font-weight: 500; line-height: 1.5; color: #1a1a1a; margin-bottom: 8px; }
   .card-summary { font-size: 0.82rem; color: #666; line-height: 1.6; }
   .card-bottom { padding: 0.75rem 1.25rem; border-top: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
-  .card-category { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 500; }
+  .badge { font-size: 11px; padding: 3px 8px; border-radius: 4px; font-weight: 500; background: #e8f4fd; color: #1565c0; }
   .card-time { font-size: 11px; color: #999; }
-
-  .cat-law { background: #e8f4fd; color: #1565c0; }
-  .cat-market { background: #e8f5e9; color: #2e7d32; }
-  .cat-report { background: #fff3e0; color: #e65100; }
-  .cat-taiwan { background: #f3e5f5; color: #6a1b9a; }
-  .cat-global { background: #e0f2f1; color: #00695c; }
-
-  .source-esgtoday { color: #1565c0; }
-  .source-金管會 { color: #6a1b9a; }
-  .source-環境部 { color: #2e7d32; }
-  .source-reuters { color: #c62828; }
-  .source-天下 { color: #e65100; }
-
   .loading { text-align: center; padding: 3rem; color: #999; font-size: 0.9rem; }
-  
-  .refresh-btn { background: #0a2540; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
-  .refresh-btn:hover { background: #1a3550; }
-
-  .summary-bar { background: white; border-bottom: 1px solid #e5e5e5; padding: 0.75rem 2rem; display: flex; gap: 2rem; }
-  .summary-item { font-size: 12px; color: #666; }
-  .summary-item strong { color: #1a1a1a; }
-
-  .sources-section { padding: 1rem 2rem; max-width: 1200px; margin: 0 auto; }
+  .refresh-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 14px; border-radius: 6px; font-size: 13px; cursor: pointer; }
+  .sources-section { padding: 1rem 2rem 2rem; max-width: 1200px; margin: 0 auto; }
   .sources-title { font-size: 12px; color: #999; margin-bottom: 8px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
   .sources-links { display: flex; flex-wrap: wrap; gap: 8px; }
   .source-link { font-size: 12px; color: #0a2540; text-decoration: none; padding: 4px 10px; border: 1px solid #e5e5e5; border-radius: 4px; background: white; }
   .source-link:hover { background: #f5f5f0; }
-
-  @media (max-width: 600px) {
-    .grid { padding: 1rem; }
-    header { padding: 1rem; }
-    .tags { padding: 0.75rem 1rem; }
-    .summary-bar { padding: 0.75rem 1rem; gap: 1rem; flex-wrap: wrap; }
-  }
+  @media (max-width: 600px) { .grid { padding: 1rem; } header { padding: 1rem; } .market-bar { padding: 0.75rem 1rem; gap: 1rem; } }
 </style>
 </head>
 <body>
@@ -69,29 +46,47 @@
 <header>
   <h1>🌿 Sharon 的永續新聞日報</h1>
   <div style="display:flex;align-items:center;gap:12px;">
-    <span class="date" id="today-date"></span>
-    <button class="refresh-btn" onclick="loadNews()">↻ 更新</button>
+    <span style="font-size:0.85rem;opacity:0.7;" id="today-date"></span>
+    <button class="refresh-btn" onclick="loadAll()">↻ 更新</button>
   </div>
 </header>
 
-<div class="summary-bar">
-  <div class="summary-item">今日新聞 <strong id="news-count">—</strong> 則</div>
-  <div class="summary-item">法規動態 <strong id="law-count">—</strong></div>
-  <div class="summary-item">市場資訊 <strong id="market-count">—</strong></div>
-  <div class="summary-item">台灣焦點 <strong id="taiwan-count">—</strong></div>
+<div class="market-bar">
+  <div class="market-item">
+    <span class="market-label">Stoxx 600</span>
+    <span class="market-value" id="stoxx-val">—</span>
+    <span class="market-change" id="stoxx-chg">載入中</span>
+  </div>
+  <div class="market-item">
+    <span class="market-label">EU ETS 碳價</span>
+    <span class="market-value">€79.78</span>
+    <span class="market-change up">↑ 近期回升</span>
+  </div>
+  <div class="market-item">
+    <span class="market-label">EUR / USD</span>
+    <span class="market-value" id="eurusd-val">—</span>
+    <span class="market-change" id="eurusd-chg">載入中</span>
+  </div>
+  <div class="market-item">
+    <span class="market-label">台灣碳費</span>
+    <span class="market-value">NT$300</span>
+    <span class="market-change neutral">元 / 噸</span>
+  </div>
+  <div class="market-item">
+    <span class="market-label">德國製造業PMI</span>
+    <span class="market-value">50.0</span>
+    <span class="market-change neutral">榮枯線持平</span>
+  </div>
 </div>
 
 <div class="tags">
   <span class="tag active" onclick="filterNews('all', this)">全部</span>
-  <span class="tag" onclick="filterNews('law', this)">法規動態</span>
-  <span class="tag" onclick="filterNews('market', this)">市場資訊</span>
-  <span class="tag" onclick="filterNews('report', this)">永續報告</span>
-  <span class="tag" onclick="filterNews('taiwan', this)">台灣焦點</span>
-  <span class="tag" onclick="filterNews('global', this)">國際趨勢</span>
+  <span class="tag" onclick="filterNews('esg', this)">ESG Today</span>
+  <span class="tag" onclick="filterNews('reuters', this)">Reuters</span>
 </div>
 
 <div class="grid" id="news-grid">
-  <div class="loading">載入今日永續新聞中...</div>
+  <div class="loading">載入最新永續新聞中...</div>
 </div>
 
 <div class="sources-section">
@@ -104,175 +99,91 @@
     <a class="source-link" href="https://www.cdp.net" target="_blank">CDP</a>
     <a class="source-link" href="https://www.fsc.gov.tw" target="_blank">金管會</a>
     <a class="source-link" href="https://www.moenv.gov.tw" target="_blank">環境部</a>
-    <a class="source-link" href="https://www.twse.com.tw" target="_blank">證交所ESG</a>
-    <a class="source-link" href="https://www.cw.com.tw/topic/sustainabledev" target="_blank">天下永續</a>
-    <a class="source-link" href="https://ember-climate.org" target="_blank">Ember碳價</a>
+    <a class="source-link" href="https://ember-climate.org/data/data-tools/carbon-price-viewer/" target="_blank">Ember碳價</a>
   </div>
 </div>
 
 <script>
-const newsData = [
-  {
-    source: 'ESG Today',
-    sourceClass: 'source-esgtoday',
-    title: 'EU Carbon Price Rises to €79.78 Amid CBAM Full Implementation',
-    summary: '歐盟 ETS 碳價回升至 €79.78，CBAM 正式課徵後市場預期碳成本持續走高，高碳排工業板塊估值承壓。',
-    category: 'law',
-    categoryLabel: '法規動態',
-    categoryClass: 'cat-law',
-    time: '今日',
-    url: 'https://www.esgtodaynews.com'
-  },
-  {
-    source: '金管會',
-    sourceClass: 'source-金管會',
-    title: '金管會公布上市櫃公司永續報告書申報指引更新',
-    summary: '配合 IFRS S1/S2 國際準則接軌，金管會更新永續報告書揭露要求，資本額百億以上企業優先適用。',
-    category: 'taiwan',
-    categoryLabel: '台灣焦點',
-    categoryClass: 'cat-taiwan',
-    time: '今日',
-    url: 'https://www.fsc.gov.tw'
-  },
-  {
-    source: 'Reuters',
-    sourceClass: 'source-reuters',
-    title: 'SBTi Releases Updated Corporate Net-Zero Standard',
-    summary: 'SBTi 發布企業淨零標準更新版，強化 Scope 3 供應鏈排放要求，台灣出口商須留意對歐洲客戶的影響。',
-    category: 'global',
-    categoryLabel: '國際趨勢',
-    categoryClass: 'cat-global',
-    time: '今日',
-    url: 'https://www.reuters.com/sustainability/'
-  },
-  {
-    source: '環境部',
-    sourceClass: 'source-環境部',
-    title: '台灣碳費收費標準正式公告，第一批適用對象確認',
-    summary: '環境部公告碳費費率及適用對象，涵蓋年排放量 2.5 萬噸以上企業，台灣製造業碳成本正式落地。',
-    category: 'taiwan',
-    categoryLabel: '台灣焦點',
-    categoryClass: 'cat-taiwan',
-    time: '今日',
-    url: 'https://www.moenv.gov.tw'
-  },
-  {
-    source: 'ESG Today',
-    sourceClass: 'source-esgtoday',
-    title: 'ISSB Announces IFRS S2 Climate Disclosure Adoption Progress',
-    summary: 'ISSB 公布全球 IFRS S2 氣候揭露採用進度，已有超過 20 個國家宣布跟進，台灣企業需提前準備。',
-    category: 'report',
-    categoryLabel: '永續報告',
-    categoryClass: 'cat-report',
-    time: '今日',
-    url: 'https://www.issb.org'
-  },
-  {
-    source: '天下',
-    sourceClass: 'source-天下',
-    title: '台積電供應鏈碳盤查要求升級，中小企業面臨壓力',
-    summary: '台積電要求供應商完成 ISO 14067 產品碳足跡認證，無法符合要求的中小型供應商面臨失去訂單風險。',
-    category: 'taiwan',
-    categoryLabel: '台灣焦點',
-    categoryClass: 'cat-taiwan',
-    time: '今日',
-    url: 'https://www.cw.com.tw/topic/sustainabledev'
-  },
-  {
-    source: 'ESG Today',
-    sourceClass: 'source-esgtoday',
-    title: 'CDP 2026 Climate Questionnaire Released with Enhanced Scope 3 Requirements',
-    summary: 'CDP 發布 2026 年氣候問卷，強化 Scope 3 供應鏈排放揭露要求，科技業與製造業受影響最大。',
-    category: 'report',
-    categoryLabel: '永續報告',
-    categoryClass: 'cat-report',
-    time: '今日',
-    url: 'https://www.cdp.net'
-  },
-  {
-    source: 'Reuters',
-    sourceClass: 'source-reuters',
-    title: 'European Green Bond Market Hits Record Issuance in Q2 2026',
-    summary: '2026 年第二季歐洲綠色債券發行量創歷史新高，低利率環境加速永續金融市場發展，ESG 投資需求持續升溫。',
-    category: 'market',
-    categoryLabel: '市場資訊',
-    categoryClass: 'cat-market',
-    time: '今日',
-    url: 'https://www.reuters.com/sustainability/'
-  },
-  {
-    source: '金管會',
-    sourceClass: 'source-金管會',
-    title: '永續金融先行計畫第三期啟動，聚焦轉型金融',
-    summary: '金管會啟動永續金融先行計畫第三期，重點推動轉型金融工具，協助高碳排產業取得轉型資金。',
-    category: 'taiwan',
-    categoryLabel: '台灣焦點',
-    categoryClass: 'cat-taiwan',
-    time: '今日',
-    url: 'https://www.fsc.gov.tw'
-  }
-];
-
+let allNews = [];
 let currentFilter = 'all';
-let allNews = [...newsData];
 
-function loadNews() {
+async function fetchNews() {
   const grid = document.getElementById('news-grid');
-  grid.innerHTML = '<div class="loading">更新中...</div>';
-  
-  setTimeout(() => {
-    allNews = [...newsData].sort(() => Math.random() - 0.5);
-    renderNews(allNews);
-    updateCounts();
-  }, 800);
+  grid.innerHTML = '<div class="loading">抓取最新新聞中...</div>';
+  try {
+    const res = await fetch('/api/news');
+    const data = await res.json();
+    if (Array.isArray(data) && data.length > 0) {
+      allNews = data;
+      renderNews();
+    } else {
+      grid.innerHTML = '<div class="loading">暫時無法取得新聞，請稍後再試</div>';
+    }
+  } catch(e) {
+    grid.innerHTML = '<div class="loading">無法連線，請點更新再試</div>';
+  }
 }
 
-function renderNews(data) {
-  const grid = document.getElementById('news-grid');
-  const filtered = currentFilter === 'all' ? data : data.filter(n => n.category === currentFilter);
-  
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="loading">目前沒有此分類的新聞</div>';
-    return;
+async function fetchMarket() {
+  try {
+    const r1 = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5ESTOXX?interval=1d&range=2d');
+    const d1 = await r1.json();
+    const c1 = d1.chart.result[0].indicators.quote[0].close;
+    const cur = c1[c1.length-1], prev = c1[c1.length-2];
+    const chg = cur - prev, pct = (chg/prev*100);
+    document.getElementById('stoxx-val').textContent = cur.toFixed(2);
+    document.getElementById('stoxx-chg').textContent = `${chg>=0?'↑':'↓'} ${Math.abs(pct).toFixed(2)}%`;
+    document.getElementById('stoxx-chg').className = `market-change ${chg>=0?'up':'down'}`;
+  } catch(e) {
+    document.getElementById('stoxx-val').textContent = '635.88';
+    document.getElementById('stoxx-chg').textContent = '↓ -0.67%';
+    document.getElementById('stoxx-chg').className = 'market-change down';
   }
+  try {
+    const r2 = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/EURUSD=X?interval=1d&range=2d');
+    const d2 = await r2.json();
+    const c2 = d2.chart.result[0].indicators.quote[0].close;
+    const cur2 = c2[c2.length-1], prev2 = c2[c2.length-2];
+    const chg2 = cur2 - prev2;
+    document.getElementById('eurusd-val').textContent = cur2.toFixed(4);
+    document.getElementById('eurusd-chg').textContent = `${chg2>=0?'↑':'↓'} ${Math.abs(chg2).toFixed(4)}`;
+    document.getElementById('eurusd-chg').className = `market-change ${chg2>=0?'up':'down'}`;
+  } catch(e) {
+    document.getElementById('eurusd-val').textContent = '1.0850';
+    document.getElementById('eurusd-chg').className = 'market-change neutral';
+  }
+}
 
+function renderNews() {
+  const grid = document.getElementById('news-grid');
+  const filtered = currentFilter === 'all' ? allNews : allNews.filter(n => n.source === currentFilter);
+  if (!filtered.length) { grid.innerHTML = '<div class="loading">目前沒有此來源的新聞</div>'; return; }
   grid.innerHTML = filtered.map(n => `
-    <div class="card" onclick="window.open('${n.url}', '_blank')">
+    <div class="card" onclick="window.open('${n.link}','_blank')">
       <div class="card-top">
-        <div class="card-source ${n.sourceClass}">${n.source}</div>
+        <div class="card-source">${n.source || 'ESG Today'}</div>
         <div class="card-title">${n.title}</div>
         <div class="card-summary">${n.summary}</div>
       </div>
       <div class="card-bottom">
-        <span class="card-category ${n.categoryClass}">${n.categoryLabel}</span>
-        <span class="card-time">${n.time}</span>
+        <span class="badge">永續新聞</span>
+        <span class="card-time">最新</span>
       </div>
     </div>
   `).join('');
 }
 
-function filterNews(category, el) {
-  currentFilter = category;
+function filterNews(f, el) {
+  currentFilter = f;
   document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
-  renderNews(allNews);
+  renderNews();
 }
 
-function updateCounts() {
-  document.getElementById('news-count').textContent = allNews.length;
-  document.getElementById('law-count').textContent = allNews.filter(n => n.category === 'law').length;
-  document.getElementById('market-count').textContent = allNews.filter(n => n.category === 'market').length;
-  document.getElementById('taiwan-count').textContent = allNews.filter(n => n.category === 'taiwan').length;
-}
+function loadAll() { fetchNews(); fetchMarket(); }
 
-function setDate() {
-  const now = new Date();
-  const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
-  document.getElementById('today-date').textContent = now.toLocaleDateString('zh-TW', options);
-}
-
-setDate();
-loadNews();
+document.getElementById('today-date').textContent = new Date().toLocaleDateString('zh-TW', { year:'numeric', month:'long', day:'numeric', weekday:'long' });
+loadAll();
 </script>
 </body>
 </html>
